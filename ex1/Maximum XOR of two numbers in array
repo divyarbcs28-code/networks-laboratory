@@ -1,0 +1,56 @@
+struct Node {
+    struct Node* next[2];
+};
+struct Node* create_node() {
+    struct Node* n = (struct Node*)malloc(sizeof(struct Node));
+    n->next[0] = NULL;
+    n->next[1] = NULL;
+    return n;
+}
+int findMaximumXOR(int* nums, int numsSize) {
+    struct Node* root = create_node();
+    for (int i = 0; i < numsSize; i++) {
+        int val = nums[i];
+        struct Node* curr = root;       
+        for (int b = 30; b >= 0; b--) {
+            int bit = (val >> b) & 1;
+           
+           
+            if (!curr->next[bit]) {
+                curr->next[bit] = create_node();
+            }
+            curr = curr->next[bit];
+        }
+    }
+   
+    int max_ans = 0;
+   
+   
+    for (int i = 0; i < numsSize; i++) {
+        int val = nums[i];
+        struct Node* curr = root;
+        int sum = 0;
+       
+        for (int b = 30; b >= 0; b--) {
+            int bit = (val >> b) & 1;
+            int want = bit ^ 1;
+           
+           
+            if (curr->next[want]) {
+                sum |= (1 << b);
+                curr = curr->next[want];
+            } else {
+                curr = curr->next[bit];
+            }
+        }
+       
+       
+        if (sum > max_ans) {
+            max_ans = sum;
+        }
+    }
+   
+ 
+   
+    return max_ans;
+}
