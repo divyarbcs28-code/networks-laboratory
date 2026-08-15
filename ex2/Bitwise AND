@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+int bitwiseAnd(int N, int K) {
+    int max = 0;
+
+    for (int a = 1; a <= N; a++) {
+        for (int b = a + 1; b <= N; b++) {
+            int result = a & b;
+
+            if (result < K && result > max) {
+                max = result;
+            }
+        }
+    }
+
+    return max;
+}
+
+int main() {
+    int T;
+    scanf("%d", &T);
+
+    while (T--) {
+        int N, K;
+        scanf("%d %d", &N, &K);
+
+        printf("%d\n", bitwiseAnd(N, K));
+    }
+
+    return 0;
+}
